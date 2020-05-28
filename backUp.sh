@@ -3,13 +3,6 @@
 # Backup by E.Ozgur Yilmaz
 # 
 # Backs up the harddrives with versioned directories.
-# 
-# Changelog
-# ---------
-# 
-# 0.1.0
-# -----
-# - Added support to disable suspend
 #
 
 # There is a problem with cygwin, where it is not possible to hard-link files
@@ -19,10 +12,15 @@
 export RetentionCnt=30
 export BackupSource=/mnt/NAS/
 export BackupTarget=/mnt/Backup/Data/NAS
-export LogFile=/mnt/Backup/backUp.log
+export BackupStartDate=`date +"%Y%m%d-%H%M"`
+
+# Log Files
+export GlobalLogFile=/mnt/Backup/backUp.log
+export TempLocalLogFile=/mnt/Backup/LocalBackUp.log
+export LocalLogFile=${BackupTarget}.0/backUp.log
 
 # Create TimeStamp for Backup start date
-echo Backup Started at:   `date +"%Y%m%d-%H%M"` >> $LogFile
+echo Backup Started at:   $BackupStartDate | tee $TempLocalLogFile >> $GlobalLogFile
 echo Backing up $BackupSource to $BackupTarget.0
 
 # Remove the oldest backup
@@ -37,11 +35,16 @@ done
 
 echo Link and Copy $BackupTarget.0
 cp -rl $BackupTarget.1 $BackupTarget.0
+
 #/usr/bin/rsync -avuh --progress --delete-excluded --delete --filter="merge filter_rules" $BackupSource $BackupTarget.0/
 echo Running rsync command in quiet mode
-/usr/bin/rsync -avuh -q --delete-excluded --delete --filter="merge /mnt/Backup/filter_rules" $BackupSource $BackupTarget.0/ >> $TimeStampFile
+/usr/bin/rsync -avuh --delete-excluded --delete --filter="merge /mnt/Backup/filter_rules" $BackupSource $BackupTarget.0/ >> $TempLocalLogFile
 
 # Create TimeStamp for Backup end date
-echo Backup Completed at: `date +"%Y%m%d-%H%M"` >> $LogFile
-echo "==================================" >> $LogFile
+echo Backup Completed at: `date +"%Y%m%d-%H%M"` | tee -a $TempLocalLogFile >> $GlobalLogFile
+echo "==================================" >> $GlobalLogFile
+
+# Move the TempLocalLogFile to LocalLogFile
+mv $TempLocalLogFile $LocalLogFile
+
 echo "Backup Completed"
