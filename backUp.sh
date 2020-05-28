@@ -20,15 +20,10 @@ export RetentionCnt=30
 export BackupSource=/mnt/NAS/
 export BackupTarget=/mnt/Backup/Data/NAS
 export LogFile=/mnt/Backup/backUp.log
-export LogStampFile=$BackupTarget.0/backUp.log
 
 # Create TimeStamp for Backup start date
 echo Backup Started at:   `date +"%Y%m%d-%H%M"` >> $LogFile
 echo Backing up $BackupSource to $BackupTarget.0
-
-# Also create a file showing the backup date in to the BackupTarget folder
-rm $LogStampFile
-echo
 
 # Remove the oldest backup
 echo Removing oldest backup: $BackupTarget.$RetentionCnt
@@ -50,5 +45,3 @@ echo Running rsync command in quiet mode
 echo Backup Completed at: `date +"%Y%m%d-%H%M"` >> $LogFile
 echo "==================================" >> $LogFile
 echo "Backup Completed"
-
-
