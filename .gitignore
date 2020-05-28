@@ -1,4 +1,5 @@
-.Trash-1000
+.Trash-*
 Data/
 backUp.log
 whatToBackup
+lost+found/
