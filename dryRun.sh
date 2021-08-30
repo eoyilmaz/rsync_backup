@@ -12,14 +12,10 @@
 # - Added support to disable suspend
 #
 
-export RetentionCnt=30
-export BackupSource=/mnt/NAS/
-export BackupDisk=/mnt/Backup
-export BackupTarget=${BackupDisk}/Data/NAS
-
+source config.sh
+source print_vars.sh
 
 # link and copy and backup
 rsync -avuhn --progress --delete-excluded --delete --filter="merge filter_rules" $BackupSource $BackupTarget.0/ | tee ./whatToBackup
 
 echo "Dry Run Completed!"
-

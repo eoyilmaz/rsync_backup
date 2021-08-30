@@ -5,20 +5,8 @@
 # Backs up the harddrives with versioned directories.
 #
 
-# There is a problem with cygwin, where it is not possible to hard-link files
-# it is complaining about different file systems, while the files are on the
-# same drive
-
-export RetentionCnt=30
-export BackupSource=/mnt/NAS/
-export BackupDisk=/mnt/Backup
-export BackupTarget=${BackupDisk}/Data/NAS
-export BackupStartDate=`date +"%Y%m%d-%H%M"`
-
-# Log Files
-export GlobalLogFile=${BackupDisk}/backUp.log
-export TempLocalLogFile=${BackupDisk}/LocalBackUp.log
-export LocalLogFile=${BackupTarget}.0/backUp.log
+source config.sh
+source print_vars.sh
 
 # Create TimeStamp for Backup start date
 echo Backup Started at:   $BackupStartDate | tee $TempLocalLogFile >> $GlobalLogFile
@@ -37,7 +25,6 @@ done
 echo Link and Copy $BackupTarget.0
 cp -rl $BackupTarget.1 $BackupTarget.0
 
-#/usr/bin/rsync -avuh --progress --delete-excluded --delete --filter="merge filter_rules" $BackupSource $BackupTarget.0/
 echo Running rsync command in quiet mode
 /usr/bin/rsync -avuh --progress --delete-excluded --delete --filter="merge filter_rules" $BackupSource $BackupTarget.0/ | tee -a $TempLocalLogFile
 

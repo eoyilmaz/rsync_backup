@@ -2,12 +2,8 @@
 # 
 # Backup by E.Ozgur Yilmaz
 
-export RetentionCnt=30
-export BackupSource=/mnt/NAS/
-export BackupDisk=/mnt/Backup
-export BackupTarget=${BackupDisk}/Data/NAS
-export GlobalLogFile=${BackupDisk}/backUp.log
-export LocalLogFile=${BackupTarget}.0/backUp.log
+source config.sh
+source print_vars.sh
 
 # Remove the latest backup
 echo Removing latest backup: $BackupTarget.0
