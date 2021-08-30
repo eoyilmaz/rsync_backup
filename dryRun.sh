@@ -14,7 +14,8 @@
 
 export RetentionCnt=30
 export BackupSource=/mnt/NAS/
-export BackupTarget=/mnt/Backup/Data/NAS
+export BackupDisk=/mnt/Backup
+export BackupTarget=${BackupDisk}/Data/NAS
 
 
 # link and copy and backup

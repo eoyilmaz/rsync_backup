@@ -4,8 +4,9 @@
 
 export RetentionCnt=30
 export BackupSource=/mnt/NAS/
-export BackupTarget=/mnt/Backup/Data/NAS
-export GlobalLogFile=/mnt/Backup/backUp.log
+export BackupDisk=/mnt/Backup
+export BackupTarget=${BackupDisk}/Data/NAS
+export GlobalLogFile=${BackupDisk}/backUp.log
 export LocalLogFile=${BackupTarget}.0/backUp.log
 
 # Remove the latest backup

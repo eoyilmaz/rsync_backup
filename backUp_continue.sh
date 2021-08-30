@@ -25,20 +25,20 @@ echo Backup Started at:   $BackupStartDate | tee $TempLocalLogFile >> $GlobalLog
 echo Backing up $BackupSource to $BackupTarget.0
 
 # Remove the oldest backup
-echo Removing oldest backup: $BackupTarget.$RetentionCnt
-rm -rf $BackupTarget.$RetentionCnt
+#echo Removing oldest backup: $BackupTarget.$RetentionCnt
+#rm -rf $BackupTarget.$RetentionCnt
 
-echo Cascade previous backup folders
-for ((i=RetentionCnt-1;i>=0;i--)); do
-    echo $BackupTarget.$i \-\> $BackupTarget.$((i+1))
-    mv $BackupTarget.$i $BackupTarget.$((i+1))
-done
+#echo Cascade previous backup folders
+#for ((i=RetentionCnt-1;i>=0;i--)); do
+#    echo $BackupTarget.$i \-\> $BackupTarget.$((i+1))
+#    mv $BackupTarget.$i $BackupTarget.$((i+1))
+#done
 
-echo Link and Copy $BackupTarget.0
-cp -rl $BackupTarget.1 $BackupTarget.0
+#echo Link and Copy $BackupTarget.0
+#cp -rl $BackupTarget.1 $BackupTarget.0
 
 #/usr/bin/rsync -avuh --progress --delete-excluded --delete --filter="merge filter_rules" $BackupSource $BackupTarget.0/
-echo Running rsync command in quiet mode
+# echo Running rsync command in quiet mode
 /usr/bin/rsync -avuh --progress --delete-excluded --delete --filter="merge filter_rules" $BackupSource $BackupTarget.0/ | tee -a $TempLocalLogFile
 
 
