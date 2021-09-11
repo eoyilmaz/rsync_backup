@@ -5,3 +5,4 @@ LocalBackUp.log
 whatToBackup
 lost+found/
 config.sh
+filter_rules
